@@ -1,0 +1,28 @@
+---
+import { languages } from '../i18n/ui';
+
+const { currentLanguage } = Astro.props;
+---
+
+<div class="fixed top-4 left-4 z-10">
+  <select id="language-selector" class="bg-gray-200 dark:bg-gray-800 text-gray-800 dark:text-gray-200 rounded-md px-2 py-1">
+    {Object.entries(languages).map(([lang, label]) => (
+      <option value={lang} selected={currentLanguage === lang}>{label}</option>
+    ))}
+  </select>
+</div>
+
+<script>
+  const languageSelector = document.getElementById('language-selector') as HTMLSelectElement;
+
+
+  
+  languageSelector.addEventListener('change', (event) => {
+    const selectedLanguage = event.target.value;
+    const currentPath = window.location.pathname;
+    const newPath = currentPath === '/' 
+      ? `/${selectedLanguage}` 
+      : currentPath.replace(/^\/[^/]+/, `/${selectedLanguage}`);
+    window.location.href = newPath;
+  });
+</script>

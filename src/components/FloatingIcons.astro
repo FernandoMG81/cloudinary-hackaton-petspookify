@@ -1,0 +1,76 @@
+---
+const icons = [
+  { emoji: '🎃', name: 'pumpkin' },
+  { emoji: '👻', name: 'ghost' },
+  { emoji: '🦇', name: 'bat' },
+  { emoji: '🕷️', name: 'spider' },
+  { emoji: '🕸️', name: 'spider-web' },
+  { emoji: '🧙', name: 'witch' },
+  { emoji: '🧛', name: 'vampire' },
+  { emoji: '💀', name: 'skull' },
+];
+---
+
+<div class="fixed inset-0 pointer-events-none overflow-hidden" style="z-index: -1" >
+  {icons.map((icon) => (
+    <div class={`floating-icon ${icon.name} text-4xl absolute`}>
+      {icon.emoji}
+    </div>
+  ))}
+</div>
+
+<style>
+  .floating-icon {
+    animation: float-fade 8s ease-in-out infinite;
+    opacity: 0;
+  }
+
+  @keyframes float-fade {
+    0%, 100% { 
+      opacity: 0;
+      transform: translateY(0) rotate(0deg);
+    }
+    25% {
+      opacity: 1;
+      transform: translateY(-15px) rotate(-5deg);
+    }
+    50% {
+      opacity: 1;
+      transform: translateY(0) rotate(0deg);
+    }
+    75% {
+      opacity: 1;
+      transform: translateY(15px) rotate(5deg);
+    }
+  }
+</style>
+
+<script>
+  function getRandomPosition() {
+    return `${Math.random() * 100}%`;
+  }
+
+  function animateIcon(icon: HTMLElement) {
+    icon.style.left = getRandomPosition();
+    icon.style.top = getRandomPosition();
+    icon.style.animationDelay = `${Math.random() * 8}s`;
+  }
+
+  function setupIcons() {
+    const icons = document.querySelectorAll('.floating-icon');
+    icons.forEach(animateIcon);
+  }
+
+  function updateIconPositions() {
+    const icons = document.querySelectorAll<HTMLElement>('.floating-icon');
+    icons.forEach((icon) => {
+      setTimeout(() => animateIcon(icon), Math.random() * 8000);
+    });
+  }
+
+  // Initial setup
+  document.addEventListener('astro:page-load', setupIcons);
+
+  // Continuously update positions
+  setInterval(updateIconPositions, 8000);
+</script>

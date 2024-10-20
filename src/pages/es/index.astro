@@ -1,0 +1,566 @@
+---
+import FloatingIcons from "../../components/FloatingIcons.astro";
+import SampleImages from "../../components/SampleImages.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+import { getLangFromUrl, useTranslations } from "../../i18n/utils";
+import Layout from "../../layouts/Layout.astro";
+import { CldUploadWidget, CldImage } from "astro-cloudinary";
+
+//import SampleImages from '../components/SampleImages.astro';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title="PETSPOOKIFY - Halloween Image Transformation" lang={lang}>
+  <main class="container mx-auto px-4 py-8">
+    <h1
+      class="text-4xl md:text-6xl font-bold text-center mb-8 text-spooky-orange"
+    >
+      {t("welcome")}
+      <span id="title" class="text-gradient text-6xl">PETSPOOKIFY</span>
+    </h1>
+    <p class="text-xl text-center text-balance mb-12 max-w-2xl mx-auto">
+      {t("description")}
+    </p>
+    <!-- <ImageUploader /> -->
+    <CldUploadWidget
+      id="upload-widget"
+      uploadPreset="upload-unsigned-petspookify"
+      options={{
+        sources: ["local", "camera", "instagram"],
+        multiple: false,
+        maxFiles: 1,
+        language: "es",
+        styles: {
+          palette: {
+            window: "#F5F5F5",
+            sourceBg: "#FFFFFF",
+            windowBorder: "#90a0b3",
+            tabIcon: "#0094c7",
+            inactiveTabIcon: "#69778A",
+            menuIcons: "#0094C7",
+            link: "#53ad9d",
+            action: "#8F5DA5",
+            inProgress: "#0194c7",
+            complete: "#53ad9d",
+            error: "#c43737",
+            textDark: "#000000",
+            textLight: "#FFFFFF",
+          },
+        },
+        text: {
+          es: {
+            or: "O",
+            menu: {
+              files: "Mis Archivos",
+            },
+            local: {
+              browse: "Seleccionar",
+              dd_title_single: "Arrastra tu imagen aquí",
+            },
+          },
+        },
+      }}
+    >
+      <button
+        id="upload-widget"
+        class="w-1/2 m-auto bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+          xmlns="http://www.w3.org/2000/svg"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M7 16a4 4 0 01-.88-7.903A5 5 0 1115.9 6L16 6a5 5 0 011 9.9M15 13l-3-3m0 0l-3 3m3-3v12"
+          ></path>
+        </svg>
+        <span id="upload-button">{t("uploadImage")}</span>
+      </button>
+    </CldUploadWidget>
+
+    <!-- Contenedor de stickers -->
+    <section
+      id="stickers-container"
+      class="mt-10 mb-14 gap-4 bg-slate-600 p-4 rounded-lg border-2 border-slate-800 overflow-hidden hidden"
+    >
+      <h3 class="text-xl text-center font-bold mb-2 text-spooky-green">
+        {t("stickers")}
+      </h3>
+      <div
+        class="flex flex-wrap justify-center items-center gap-4 overflow-x-auto"
+      >
+        <img
+          class="hover:cursor-grab"
+          src="https://res.cloudinary.com/de9uossfg/image/upload/v1729083604/petspookify/stickers/pptalh8i0w1yrihl0omu.webp"
+          alt="Sticker 1"
+          width="100"
+          draggable="true"
+        />
+        <img
+          class="hover:cursor-grab"
+          src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/zbyv73u544vbhgy8sbsh.webp"
+          alt="Sticker 2"
+          width="100"
+          draggable="true"
+        />
+        <img
+          class="hover:cursor-grab"
+          src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/zv35s8vhanouhndppdns.webp"
+          alt="Sticker 3"
+          width="100"
+          draggable="true"
+        />
+        <img
+          class="hover:cursor-grab"
+          src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/l26i1bcvlslg9gzgcjfe.webp"
+          alt="Sticker 4"
+          width="100"
+          draggable="true"
+        />
+        <img
+          class="hover:cursor-grab"
+          src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/h9ew3pxvcpgevwdmthlm.webp"
+          alt="Sticker 5"
+          width="100"
+          draggable="true"
+        />
+        <img
+          class="hover:cursor-grab"
+          src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/qcajix8hesatbl1ot70v.webp"
+          alt="Sticker 6"
+          width="100"
+          draggable="true"
+        />
+        <img
+          class="hover:cursor-grab"
+          src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/p7ar2bis4me0wesvxo8l.webp"
+          alt="Sticker 7"
+          width="100"
+          draggable="true"
+        />
+      </div>
+    </section>
+
+    <section id="preview" class="mt-6 hidden">
+      <h3 class="text-xl font-bold mb-2 text-spooky-green">Preview:</h3>
+      <img id="preview-image" src="" alt="Preview" class="w-full rounded-lg" />
+      <div
+        id="loading-spinner"
+        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50"
+      >
+        <div class="loader"></div>
+        <p class="text-spooky-orange ml-4">{t("generatingdImage")}</p>
+      </div>
+    </section>
+
+    <!-- <figure id="final" class="mt-6 hidden">
+      <h3 class="text-xl font-bold mb-2 text-spooky-green">Final:</h3>
+      <img id="final-image" src="" alt="final" class="w-full rounded-lg" />
+      <button
+        id="download-button"
+        class="bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-2 px-4 rounded-lg mt-4"
+      >
+        Download Image
+      </button>
+    </figure> -->
+    <section id="final" class="hidden">
+      <!-- Canvas donde se mostrará la imagen transformada -->
+      <div id="canvas-container" class=" flex flex-col items-center justify-center">
+        <canvas id="imageCanvas" width="1080" height="1350"></canvas>
+        <!-- Botón para descargar la imagen personalizada -->
+        <button
+          id="download-button"
+          class="mt-4 mb-8 bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-2 px-4 rounded-lg"
+        >
+          {t('download')}
+        </button>
+      </div>
+    </section>
+
+    <SampleImages />
+    <ThemeToggle />
+    <FloatingIcons />
+  </main>
+</Layout>
+
+<script>
+  import { getCldImageUrl } from "astro-cloudinary/helpers";
+  import { halloweenPrompts } from "../../utils/prompts";
+  import canvasScreenshot from "canvas-screenshot";
+
+  const widget = document.getElementById("upload-widget");
+  const previewContainer = document.getElementById("preview") as HTMLElement;
+  const previewImage = document.getElementById("preview-image") as HTMLImageElement;
+  const finalContainer = document.getElementById("final") as HTMLElement;
+  //const finalImage = document.getElementById("final-image") as HTMLImageElement;
+  const downloadButton = document.getElementById("download-button") as HTMLButtonElement;
+  const loadingSpinner = document.getElementById("loading-spinner");
+  const stickersContainer = document.getElementById("stickers-container") as HTMLElement;
+
+  const canvas = document.getElementById("imageCanvas") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  let stickersPlaced: any[] = [];
+  let selectedSticker: any = null;
+  let offsetX = 0;
+  let offsetY = 0;
+  let dragging = false;
+  let resizing = false;
+  let backgroundImage = new Image();
+  let originalImageWidth = 0;
+  let originalImageHeight = 0;
+
+  if (widget) {
+    widget.addEventListener("clduploadwidget:success", ((
+      e: CustomEvent<{ info: { public_id: string; secure_url: string } }>,
+    ) => {
+      console.log("clduploadwidget:success", e.detail);
+      previewImage.src = e.detail.info.secure_url;
+      previewContainer.classList.remove("hidden");
+      loadingSpinner?.classList.remove("hidden");
+
+      const generateImage = () => {
+        finalContainer.classList.add("hidden");
+        const url = getCldImageUrl({
+          src: e.detail.info.public_id,
+          replaceBackground:
+            halloweenPrompts[
+              Math.floor(Math.random() * halloweenPrompts.length)
+            ],
+        });
+
+        backgroundImage.crossOrigin = "Anonymous"; // Evitar problemas de CORS
+        backgroundImage.src = url;
+        //finalImage.src = url;
+        
+
+        backgroundImage.onload = () => {
+          originalImageWidth = backgroundImage.width;
+          originalImageHeight = backgroundImage.height;
+
+          console.log(originalImageWidth, originalImageHeight);
+
+          loadingSpinner?.classList.add("hidden");
+          previewContainer.classList.add("hidden");
+          finalContainer.classList.remove("hidden");
+          stickersContainer.classList.remove("hidden")
+          resizeCanvas(originalImageWidth, originalImageHeight);
+          redrawCanvas();
+        };
+        // finalImage.onload = () => {
+        //   loadingSpinner?.classList.add("hidden");
+        //   previewContainer.classList.add("hidden");
+        //   finalContainer.classList.remove("hidden");
+        // };
+        backgroundImage.onerror = (error) => {
+          console.log("ERROR :", { error });
+          if (error) {
+            console.log("Error 423: Reintentando en 3 segundos...");
+            setTimeout(generateImage, 3000);
+          } else {
+            console.error("Error al generar la imagen:", error);
+          }
+        };
+        // finalImage.onerror = (error) => {
+        //   console.log("ERROR :", error);
+        //   if (error.target.status === 423) {
+        //     console.log("Error 423: Reintentando en 3 segundos...");
+        //     setTimeout(generateImage, 3000);
+        //   } else {
+        //     console.error("Error al generar la imagen:", error);
+        //   }
+        // };
+      };
+
+      generateImage();
+    }) as EventListener);
+
+    downloadButton.addEventListener("click", (e) => {});
+  }
+
+  function resizeCanvas(originalWidth: number, originalHeight: number) {
+    const container = document.getElementById("canvas-container") as HTMLElement;
+    const containerWidth = container.clientWidth;
+    // Proporciones originales
+    const aspectRatio = originalWidth / originalHeight;
+    const newWidth = containerWidth; // Ajustar el ancho al contenedor
+    const newHeight = newWidth / aspectRatio; // Mantener la proporción original
+
+    // Ajustar el tamaño del canvas
+    canvas.width = newWidth;
+    canvas.height = newHeight;
+
+    // Redibujar la imagen de fondo y los stickers
+    redrawCanvas();
+  }
+
+
+  // Obtener la posición del mouse relativa al canvas
+  function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top,
+    };
+  }
+
+  // Redibujar todo el canvas
+  function redrawCanvas() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar canvas
+    ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Ajustar la imagen al canvas
+
+    // Dibujar los stickers
+    stickersPlaced.forEach((sticker) => {
+      ctx.save();
+      ctx.translate(
+        sticker.x + sticker.width / 2,
+        sticker.y + sticker.height / 2,
+      );
+      ctx.rotate((sticker.rotation * Math.PI) / 180);
+      ctx.drawImage(
+        sticker.img,
+        -sticker.width / 2,
+        -sticker.height / 2,
+        sticker.width,
+        sticker.height,
+      );
+
+      // Mostrar borde para sticker seleccionado
+      if (selectedSticker === sticker) {
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = 2;
+        ctx.strokeRect(
+          -sticker.width / 2,
+          -sticker.height / 2,
+          sticker.width,
+          sticker.height,
+        );
+        ctx.fillStyle = "red";
+        ctx.fillRect(sticker.width / 2 - 10, sticker.height / 2 - 10, 10, 10);
+      }
+      ctx.restore();
+    });
+  }
+
+  /** LISTENERS */
+
+  // Redimensionar el canvas al cargar la página
+  window.addEventListener("load", () => {
+    if (originalImageWidth && originalImageHeight) {
+      resizeCanvas(originalImageWidth, originalImageHeight);
+    }
+  });
+
+  // Redimensionar el canvas al cambiar el tamaño de la ventana
+  window.addEventListener("resize", () => {
+    if (originalImageWidth && originalImageHeight) {
+      resizeCanvas(originalImageWidth, originalImageHeight);
+    }
+  });
+
+  // Permitir el "drop" en el canvas (necesario para arrastrar y soltar)
+  canvas.addEventListener("dragover", (e) => {
+    e.preventDefault(); // Evitar el comportamiento por defecto que bloquea el drop
+  });
+
+  // Cuando se suelta el sticker en el canvas
+  canvas.addEventListener("drop", (e: DragEvent) => {
+    e.preventDefault(); // Evitar el comportamiento por defecto
+
+    const stickerSrc = e.dataTransfer?.getData("text/plain") ?? ""; // Obtener la URL del sticker arrastrado
+    const stickerImage = new Image();
+    stickerImage.src = stickerSrc;
+    stickerImage.crossOrigin = "Anonymous"; // Evitar problemas de CORS
+
+    stickerImage.onload = () => {
+      const mousePos = getMousePos(canvas, e); // Obtener la posición donde se soltó el sticker
+      stickersPlaced.push({
+        img: stickerImage,
+        x: mousePos.x - 50, // Posición inicial (ajusta según prefieras)
+        y: mousePos.y - 50,
+        width: 100,
+        height: 100,
+        rotation: 0, // Iniciar sin rotación
+      });
+      selectedSticker = stickersPlaced[stickersPlaced.length - 1]; // Seleccionar el sticker agregado
+      redrawCanvas(); // Redibujar el canvas para mostrar el nuevo sticker
+    };
+  });
+
+  // Detectar si el click es sobre un sticker para seleccionar, mover o redimensionar
+  canvas.addEventListener("mousedown", (e) => {
+    const mousePos = getMousePos(canvas, e);
+
+    // Verificar si se ha hecho click sobre algún sticker
+    selectedSticker = stickersPlaced.find(
+      (sticker) =>
+        mousePos.x > sticker.x &&
+        mousePos.x < sticker.x + sticker.width &&
+        mousePos.y > sticker.y &&
+        mousePos.y < sticker.y + sticker.height,
+    );
+
+    if (selectedSticker) {
+      offsetX = mousePos.x - selectedSticker.x;
+      offsetY = mousePos.y - selectedSticker.y;
+      // Si se está en una esquina (redimensionar), sino mover
+      if (
+        mousePos.x > selectedSticker.x + selectedSticker.width - 10 &&
+        mousePos.y > selectedSticker.y + selectedSticker.height - 10
+      ) {
+        resizing = true;
+      } else {
+        dragging = true;
+      }
+    } else {
+      // Si clickeamos fuera de los stickers, deseleccionamos el sticker
+      selectedSticker = null;
+      redrawCanvas();
+    }
+  });
+
+  // Mover, redimensionar o rotar el sticker seleccionado
+  canvas.addEventListener("mousemove", (e: MouseEvent) => {
+    if (!selectedSticker) return;
+
+    const mousePos = getMousePos(canvas, e);
+
+    if (dragging) {
+      selectedSticker.x = mousePos.x - offsetX;
+      selectedSticker.y = mousePos.y - offsetY;
+    }
+
+    if (resizing) {
+      selectedSticker.width = mousePos.x - selectedSticker.x;
+      selectedSticker.height = mousePos.y - selectedSticker.y;
+    }
+
+    redrawCanvas(); // Redibuja el canvas en cada movimiento
+  });
+
+  // Finalizar movimiento o redimensionamiento
+  canvas.addEventListener("mouseup", () => {
+    dragging = false;
+    resizing = false;
+  });
+
+  // Rotar con teclas 'Q' (antihorario) y 'E' (horario)
+  document.addEventListener("keydown", (e) => {
+    if (!selectedSticker) return;
+
+    if (e.key === "Q" || e.key === "q") {
+      selectedSticker.rotation -= 5;
+    }
+    if (e.key === "E" || e.key === "e") {
+      selectedSticker.rotation += 5;
+    }
+
+    // Eliminar sticker con 'Delete'
+    if (e.key === "Delete" || e.key === "Backspace") {
+      stickersPlaced = stickersPlaced.filter(
+        (sticker) => sticker !== selectedSticker,
+      ); // Remover sticker
+      selectedSticker = null; // Deseleccionar después de eliminar
+      redrawCanvas(); // Redibujar para eliminar el sticker visualmente
+    }
+
+    redrawCanvas(); // Redibujar el canvas para reflejar la rotación
+  });
+
+  //@ts-nocheckDescargar la imagen final con los stickers
+  document.getElementById("download-button")?.addEventListener("click", () => {
+    selectedSticker = null;
+    canvasScreenshot(canvas);
+  });
+
+  // Función para eliminar el sticker seleccionado
+  window.addEventListener("keydown", (e) => {
+    if (selectedSticker && e.key === "Delete") {
+      selectedSticker = null;
+      redrawCanvas();
+    }
+  });
+</script>
+
+<style>
+  @font-face {
+    font-family: 'halloween';
+    src: url('/font/halloween.woff') format('woff');
+  }
+
+  @font-face {
+    font-family: 'spooky';
+    src: url('/font/spooky.woff') format('woff');
+  }
+
+
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+
+  #title{
+    font-family: 'spooky', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  #upload-button{
+    font-family: 'halloween', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  }
+
+  .loader {
+    border: 4px solid #f3f3f3;
+    border-radius: 50%;
+    border-top: 4px solid #8f5da5;
+    width: 24px;
+    height: 24px;
+    animation: spin 2s linear infinite;
+  }
+
+  canvas {
+    background-color: #f5f5f5;
+  }
+
+  #canvas-container {
+    width: 100%;
+    height: auto;
+  }
+
+  #canvas {
+    border: 1px solid #ccc;
+    max-width: 100%;
+    max-height: 100%;
+  }
+
+  .sticker {
+    cursor: grab;
+  }
+
+  .sticker:active {
+    cursor: grabbing;
+  }
+
+  #loading-spinner {
+    z-index: 10;
+  }
+
+  #preview-image {
+    opacity: 0.5;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+</style>

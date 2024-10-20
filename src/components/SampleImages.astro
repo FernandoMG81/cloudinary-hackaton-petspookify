@@ -1,0 +1,90 @@
+---
+import { getLangFromUrl, useTranslations } from '../i18n/utils';
+
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+
+const sampleImages = [
+  { src: 'https://res.cloudinary.com/de9uossfg/image/upload/v1729021129/samples/imsthocrjfhaeazfo8dk.png', alt: 'Sample 1' },
+  { src: 'https://res.cloudinary.com/de9uossfg/image/upload/v1729021125/samples/pyc9okey7g8hl1uxp4mr.png', alt: 'Sample 2' },
+  { src: 'https://res.cloudinary.com/de9uossfg/image/upload/v1729021120/samples/obyhzelclnlmeux3gmzt.png', alt: 'Sample 3' },
+  { src: 'https://res.cloudinary.com/de9uossfg/image/upload/v1729021111/samples/dx9kxfotplezqz7rehpk.png', alt: 'Sample 4' },
+];
+---
+<div class="mt-12">
+  <h2 class="text-2xl text-center font-bold mb-4 text-spooky-orange">{t('sampleTransformations')}</h2>
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+    {sampleImages.map((image) => (
+      <div class="relative group">
+        <img 
+          src={image.src} 
+          alt={image.alt} 
+          class="w-full h-64 object-cover rounded-lg transition-transform duration-300 transform group-hover:scale-105" 
+        />
+        <div class="absolute inset-0 top-0 flex items-end justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <button id="apply-button" class="bg-spooky-purple text-white px-4 py-2 rounded-lg sample-image-button" data-src={image.src}>
+            {t('apply')}
+          </button>
+        </div>
+      </div>
+    ))}
+  </div>
+</div>
+
+<script>
+import { getCldImageUrl } from "astro-cloudinary/helpers";
+import { halloweenPrompts } from "../utils/prompts";
+
+  function handleSampleImageClick(event) {
+    const button = event.target.closest('.sample-image-button');
+    if (button) {
+      const imageSrc = button.dataset.src;
+      const previewImage = document.getElementById('preview-image') as HTMLImageElement;
+      const previewContainer = document.getElementById('preview') as HTMLElement;
+      const loadingSpinner = document.getElementById("loading-spinner");
+      const finalContainer = document.getElementById("final") as HTMLElement;
+      const finalImage = document.getElementById("final-image") as HTMLImageElement;
+
+      
+      console.log("use sample");
+      loadingSpinner?.classList.remove("hidden");
+      previewImage.src = imageSrc;
+      previewContainer.classList.remove('hidden');
+
+      const generateImage = () => {
+        const url = getCldImageUrl({
+          src: imageSrc,
+          replaceBackground:
+            halloweenPrompts[
+              Math.floor(Math.random() * halloweenPrompts.length)
+            ]
+        });
+
+        finalImage.src = url;
+
+        finalImage.onload = () => {
+          loadingSpinner?.classList.add("hidden");
+          previewContainer.classList.add("hidden");
+          finalContainer.classList.remove("hidden");
+        };
+
+        finalImage.onerror = (error) => {
+          console.log("error :", error);
+          if (error.target.status === 423) {
+            console.log("Error 423: Reintentando en 3 segundos...");
+            setTimeout(generateImage, 3000);
+          } else {
+            console.error("Error al generar la imagen:", error);
+          }
+        };
+      };
+
+      generateImage();
+      
+      
+      previewContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  }
+
+  document.addEventListener('click', handleSampleImageClick);
+</script>

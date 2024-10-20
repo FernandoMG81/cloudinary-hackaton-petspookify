@@ -1,0 +1,37 @@
+---
+import FloatingIcons from '../../components/FloatingIcons.astro';
+import ImageUploader from '../../components/ImageUploader.astro';
+import SampleImages from '../../components/SampleImages.astro';
+import ThemeToggle from '../../components/ThemeToggle.astro';
+import { getLangFromUrl, useTranslations } from '../../i18n/utils';
+import Layout from '../../layouts/Layout.astro';
+
+//import SampleImages from '../components/SampleImages.astro';
+const lang = getLangFromUrl(Astro.url);
+const t = useTranslations(lang);
+---
+
+<Layout title="PETSPOOKIFY - Halloween Image Transformation" lang={lang}>
+  <main class="container mx-auto px-4 py-8">
+    <h1 class="text-4xl md:text-6xl font-bold text-center mb-8 text-spooky-orange">
+      {t('welcome')} <span class="text-gradient">PET'SPOOKIFY</span>
+    </h1>
+    <p class="text-xl text-center mb-12 max-w-2xl mx-auto">
+      {t('description')}
+    </p>
+		<ImageUploader />
+    <ThemeToggle />
+    <SampleImages />
+    <FloatingIcons />
+  </main>
+</Layout>
+
+<style>
+  .text-gradient {
+    background-image: var(--accent-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 400%;
+    background-position: 0%;
+  }
+</style>
