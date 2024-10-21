@@ -21,11 +21,11 @@ export const ui = {
     'generatingdImage': 'Summoning spirits and crafting your image... the magic is on its way!',
     'stickers': 'Customize your photo with a sticker:',
     'download': 'Download Image',
-    'madewith': 'Made with ❤️ by',
+    'madewith': 'Made with ❤️ by ',
   },
   es: {
     'siteTitle': 'SPOOKY - Transformación de Imágenes de Halloween',
-    'welcome': 'Bienvenido a',
+    'welcome': 'Bienvenidos a',
     'description': '¡Transforma tus imágenes con nuestros espeluznantes filtros de Halloween! Sube tu foto o elige entre nuestras imágenes de muestra para ver la magia suceder. Personaliza tu creación con divertidos stickers temáticos y descarga la imagen para compartir con amigos o guardar como un recuerdo aterrador.',
     'uploadImage': 'Sube tu imagen',
     'clickToUpload': 'Haz clic para subir',
@@ -38,6 +38,6 @@ export const ui = {
     'generatingdImage': 'Invocando espíritus y creando tu imagen... ¡la magia está en camino!',
     'stickers': 'Personaliza tu foto con un sticker:',
     'download': 'Descargar imagen',
-    'madewith': 'Hecho con ❤️ por',
+    'madewith': 'Hecho con ❤️ por ',
   },
 } as const;
