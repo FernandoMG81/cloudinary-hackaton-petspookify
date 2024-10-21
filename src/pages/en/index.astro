@@ -12,7 +12,7 @@ const t = useTranslations(lang);
 ---
 
 <Layout title="PETSPOOKIFY - Halloween Image Transformation" lang={lang}>
-  <main class="container mx-auto px-4 py-8">
+  <main class="container flex flex-col items-center justify-center mx-auto px-4 py-8">
     <h1
       class="text-4xl md:text-6xl font-bold text-center mb-8 text-spooky-orange"
     >
@@ -75,11 +75,20 @@ const t = useTranslations(lang);
     <!-- Contenedor de stickers -->
     <section
       id="stickers-container"
-      class="mt-10 mb-14 gap-4 bg-slate-600 p-4 rounded-lg border-2 border-slate-800 overflow-hidden hidden"
+      class="mt-10 mb-14 gap-4 bg-slate-600 p-4 rounded-lg border-2 border-slate-800 overflow-hidden"
     >
-      <h3 class="text-xl text-center font-bold mb-2 text-spooky-green">
-        {t("stickers")}
-      </h3>
+    <div class="bg-gradient-to-r from-spooky-orange to-orange-700 p-4 rounded-lg shadow-md mt-4 mb-4">
+      <h4 class="text-2xl text-center font-extrabold text-white mb-2">{t('instructions_1')}</h4>
+      <p class="text-lg text-white text-center">
+        <span class="font-bold">{t('instructions_2')}</span>{t('instructions_3')} 
+        <br/>
+        <span class="font-bold">{t('instructions_4')}</span>{t('instructions_5')}<span class="font-extrabold">"Q"</span> y <span class="font-extrabold">"E"</span>, 
+        {t('instructions_6')}<span class="font-extrabold">"Delete"</span>{t('instructions_7')}
+        <br/>
+        {t('instructions_8')}<span class="font-bold">{t('instructions_9')}</span>{t('instructions_10')}
+      </p>
+    </div>
+      
       <div
         class="flex flex-wrap justify-center items-center gap-4 overflow-x-auto"
       >
@@ -133,6 +142,7 @@ const t = useTranslations(lang);
           draggable="true"
         />
       </div>
+      
     </section>
 
     <section id="preview" class="mt-6 hidden relative">
