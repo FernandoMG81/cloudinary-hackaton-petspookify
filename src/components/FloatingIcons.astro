@@ -46,33 +46,37 @@ const icons = [
 </style>
 
 <script>
-  function getRandomPosition() {
-    return `${Math.random() * 100}%`;
-  }
+  function getRandomPosition(): string {
+  return `${Math.random() * 100}%`;
+}
 
-  function animateIcon(icon: HTMLElement) {
-    icon.classList.remove('hidden');
-    icon.style.left = getRandomPosition();
-    icon.style.top = getRandomPosition();
-    icon.style.animationDelay = `${Math.random() * 8}s`;
-  }
+function animateIcon(icon: HTMLElement): void {
+  icon.classList.remove('hidden');
+  icon.style.left = getRandomPosition();
+  icon.style.top = getRandomPosition();
+  icon.style.animationDelay = `${Math.random() * 8}s`;
+}
 
-  function setupIcons() {
-    console.log('setupIcons');
-    const icons = document.querySelectorAll('.floating-icon');
-    icons.forEach(animateIcon);
-  }
+function setupIcons(): void {
+  console.log('setupIcons');
+  const icons = document.querySelectorAll('.floating-icon');
+  icons.forEach((icon) => {
+    // Aseguramos que el icono es un HTMLElement
+    animateIcon(icon as HTMLElement);
+  });
+}
 
-  function updateIconPositions() {
-    const icons = document.querySelectorAll<HTMLElement>('.floating-icon');
-    icons.forEach((icon) => {
-      setTimeout(() => animateIcon(icon), Math.random() * 8000);
-    });
-  }
+function updateIconPositions(): void {
+  const icons = document.querySelectorAll('.floating-icon');
+  icons.forEach((icon) => {
+    setTimeout(() => animateIcon(icon as HTMLElement), Math.random() * 8000);
+  });
+}
 
-  // Initial setup
-  document.addEventListener('astro:page-load', setupIcons);
+// Initial setup
+document.addEventListener('astro:page-load', setupIcons);
 
-  // Continuously update positions
-  setInterval(updateIconPositions, 8000);
+// Continuously update positions
+setInterval(updateIconPositions, 8000);
+
 </script>

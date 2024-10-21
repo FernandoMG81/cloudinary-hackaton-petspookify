@@ -147,15 +147,15 @@ const t = useTranslations(lang);
       </div>
     </section>
 
-    <section id="preview" class="mt-6 hidden">
+    <section id="preview" class="mt-6 hidden relative">
       <h3 class="text-xl font-bold mb-2 text-spooky-green">Preview:</h3>
       <img id="preview-image" src="" alt="Preview" class="w-full rounded-lg" />
       <div
         id="loading-spinner"
-        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
       >
         <div class="loader"></div>
-        <p class="text-spooky-orange ml-4">{t("generatingdImage")}</p>
+        <p class="text-spooky-orange text-3xl ml-4">{t("generatingdImage")}</p>
       </div>
     </section>
 
@@ -259,6 +259,9 @@ const t = useTranslations(lang);
       };
 
       generateImage();
+
+      previewContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+      
     }) as EventListener);
 
     downloadButton.addEventListener("click", (e) => {});
@@ -545,4 +548,5 @@ const t = useTranslations(lang);
       transform: rotate(360deg);
     }
   }
+  
 </style>

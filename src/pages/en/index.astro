@@ -7,7 +7,6 @@ import Layout from "../../layouts/Layout.astro";
 import { CldUploadWidget } from "astro-cloudinary";
 import Footer from "./Footer.astro";
 
-//import SampleImages from '../components/SampleImages.astro';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
@@ -53,7 +52,7 @@ const t = useTranslations(lang);
     >
       <button
         id="upload-widget"
-        class="w-1/2 m-auto bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2"
+        class="m-auto bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2 text-3xl"
       >
         <svg
           class="w-6 h-6"
@@ -136,15 +135,15 @@ const t = useTranslations(lang);
       </div>
     </section>
 
-    <section id="preview" class="mt-6 hidden">
+    <section id="preview" class="mt-6 hidden relative">
       <h3 class="text-xl font-bold mb-2 text-spooky-green">Preview:</h3>
       <img id="preview-image" src="" alt="Preview" class="w-full rounded-lg" />
       <div
         id="loading-spinner"
-        class="absolute inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
       >
         <div class="loader"></div>
-        <p class="text-spooky-orange ml-4">{t("generatingdImage")}</p>
+        <p class="text-spooky-orange text-3xl ml-4">{t("generatingdImage")}</p>
       </div>
     </section>
 
@@ -163,10 +162,13 @@ const t = useTranslations(lang);
       </div>
     </section>
 
-    <SampleImages />
+    <img id="background-image" src="" alt="" class="hidden" />
+
+    <SampleImages />  
     <ThemeToggle />
     <FloatingIcons />
     <Footer />
+
   </main>
 </Layout>
 
@@ -182,6 +184,7 @@ const t = useTranslations(lang);
   const downloadButton = document.getElementById("download-button") as HTMLButtonElement;
   const loadingSpinner = document.getElementById("loading-spinner");
   const stickersContainer = document.getElementById("stickers-container") as HTMLElement;
+  const backgroundImage = document.getElementById("background-image") as HTMLImageElement;
 
   const canvas = document.getElementById("imageCanvas") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -191,7 +194,7 @@ const t = useTranslations(lang);
   let offsetY = 0;
   let dragging = false;
   let resizing = false;
-  let backgroundImage = new Image();
+  
   let originalImageWidth = 0;
   let originalImageHeight = 0;
 
@@ -231,7 +234,7 @@ const t = useTranslations(lang);
           resizeCanvas(originalImageWidth, originalImageHeight);
           redrawCanvas();
         };
-
+        
         backgroundImage.onerror = (error) => {
           console.log("ERROR :", { error });
           if (error) {
@@ -241,16 +244,19 @@ const t = useTranslations(lang);
             console.error("Error al generar la imagen:", error);
           }
         };
-        
       };
 
       generateImage();
+
+      previewContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+      
     }) as EventListener);
 
     downloadButton.addEventListener("click", (e) => {});
   }
 
   function resizeCanvas(originalWidth: number, originalHeight: number) {
+    console.log('resizeCanvas');
     const container = document.getElementById("canvas-container") as HTMLElement;
     const containerWidth = container.clientWidth;
     // Proporciones originales
@@ -266,18 +272,9 @@ const t = useTranslations(lang);
     redrawCanvas();
   }
 
-
-  // Obtener la posición del mouse relativa al canvas
-  function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top,
-    };
-  }
-
-  // Redibujar todo el canvas
+    // Redibujar todo el canvas
   function redrawCanvas() {
+    console.log('redrawCanvas');
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar canvas
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Ajustar la imagen al canvas
 
@@ -312,6 +309,15 @@ const t = useTranslations(lang);
       }
       ctx.restore();
     });
+  }
+
+  // Obtener la posición del mouse relativa al canvas
+  function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top,
+    };
   }
 
   /** LISTENERS */
@@ -530,4 +536,5 @@ const t = useTranslations(lang);
       transform: rotate(360deg);
     }
   }
+  
 </style>
