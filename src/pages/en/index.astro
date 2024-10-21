@@ -211,6 +211,10 @@ const t = useTranslations(lang);
         finalContainer.classList.add("hidden");
         const url = getCldImageUrl({
           src: e.detail.info.public_id,
+          remove: {
+            prompt: 'human',
+            multiple: true
+          },
           replaceBackground:
             halloweenPrompts[
               Math.floor(Math.random() * halloweenPrompts.length)

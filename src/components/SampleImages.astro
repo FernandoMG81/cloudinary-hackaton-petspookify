@@ -90,6 +90,10 @@ const sampleImages = [
         finalContainer.classList.add("hidden");
         const url = getCldImageUrl({
           src: imageSrc,
+          remove: {
+            prompt: 'human',
+            multiple: true
+          },
           replaceBackground:
             halloweenPrompts[
               Math.floor(Math.random() * halloweenPrompts.length)

@@ -223,6 +223,10 @@ const t = useTranslations(lang);
         finalContainer.classList.add("hidden");
         const url = getCldImageUrl({
           src: e.detail.info.public_id,
+          remove: {
+            prompt: 'human',
+            multiple: true
+          },
           replaceBackground:
             halloweenPrompts[
               Math.floor(Math.random() * halloweenPrompts.length)
@@ -261,7 +265,7 @@ const t = useTranslations(lang);
       generateImage();
 
       previewContainer.scrollIntoView({ behavior: "smooth", block: "start" });
-      
+
     }) as EventListener);
 
     downloadButton.addEventListener("click", (e) => {});
