@@ -1,19 +1,19 @@
 ---
 const icons = [
-  { emoji: '🎃', name: 'pumpkin' },
-  { emoji: '👻', name: 'ghost' },
-  { emoji: '🦇', name: 'bat' },
-  { emoji: '🕷️', name: 'spider' },
-  { emoji: '🕸️', name: 'spider-web' },
-  { emoji: '🧙', name: 'witch' },
-  { emoji: '🧛', name: 'vampire' },
-  { emoji: '💀', name: 'skull' },
+  { emoji: '🎃', name: 'pumpkin'},
+  { emoji: '👻', name: 'ghost'},
+  { emoji: '🦇', name: 'bat'},
+  { emoji: '🕷️', name: 'spider'},
+  { emoji: '🕸️', name: 'spider-web'},
+  { emoji: '🧙', name: 'witch'},
+  { emoji: '🧛', name: 'vampire'},
+  { emoji: '💀', name: 'skull'}
 ];
 ---
 
 <div class="fixed inset-0 pointer-events-none overflow-hidden" style="z-index: -1" >
   {icons.map((icon) => (
-    <div class={`floating-icon ${icon.name} text-4xl absolute`}>
+    <div class={`floating-icon ${icon.name} text-4xl absolute hidden`}>
       {icon.emoji}
     </div>
   ))}
@@ -51,12 +51,14 @@ const icons = [
   }
 
   function animateIcon(icon: HTMLElement) {
+    icon.classList.remove('hidden');
     icon.style.left = getRandomPosition();
     icon.style.top = getRandomPosition();
     icon.style.animationDelay = `${Math.random() * 8}s`;
   }
 
   function setupIcons() {
+    console.log('setupIcons');
     const icons = document.querySelectorAll('.floating-icon');
     icons.forEach(animateIcon);
   }

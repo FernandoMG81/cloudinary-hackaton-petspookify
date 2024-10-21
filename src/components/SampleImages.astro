@@ -1,76 +1,119 @@
 ---
-import { getLangFromUrl, useTranslations } from '../i18n/utils';
+import { getLangFromUrl, useTranslations } from "../i18n/utils";
 
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 
 const sampleImages = [
-  { src: 'https://res.cloudinary.com/de9uossfg/image/upload/v1729021129/samples/imsthocrjfhaeazfo8dk.png', alt: 'Sample 1' },
-  { src: 'https://res.cloudinary.com/de9uossfg/image/upload/v1729021125/samples/pyc9okey7g8hl1uxp4mr.png', alt: 'Sample 2' },
-  { src: 'https://res.cloudinary.com/de9uossfg/image/upload/v1729021120/samples/obyhzelclnlmeux3gmzt.png', alt: 'Sample 3' },
-  { src: 'https://res.cloudinary.com/de9uossfg/image/upload/v1729021111/samples/dx9kxfotplezqz7rehpk.png', alt: 'Sample 4' },
+  {
+    src: "https://res.cloudinary.com/de9uossfg/image/upload/v1729021129/samples/imsthocrjfhaeazfo8dk.png",
+    alt: "Sample 1",
+  },
+  {
+    src: "https://res.cloudinary.com/de9uossfg/image/upload/v1729021125/samples/pyc9okey7g8hl1uxp4mr.png",
+    alt: "Sample 2",
+  },
+  {
+    src: "https://res.cloudinary.com/de9uossfg/image/upload/v1729021120/samples/obyhzelclnlmeux3gmzt.png",
+    alt: "Sample 3",
+  },
+  {
+    src: "https://res.cloudinary.com/de9uossfg/image/upload/v1729021111/samples/dx9kxfotplezqz7rehpk.png",
+    alt: "Sample 4",
+  },
 ];
 ---
+
 <div class="mt-12">
-  <h2 class="text-2xl text-center font-bold mb-4 text-spooky-orange">{t('sampleTransformations')}</h2>
+  <h2 class="text-2xl text-center font-bold mb-4 text-spooky-orange">
+    {t("sampleTransformations")}
+  </h2>
   <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-    {sampleImages.map((image) => (
-      <div class="relative group">
-        <img 
-          src={image.src} 
-          alt={image.alt} 
-          class="w-full h-64 object-cover rounded-lg transition-transform duration-300 transform group-hover:scale-105" 
-        />
-        <div class="absolute inset-0 top-0 flex items-end justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-          <button id="apply-button" class="bg-spooky-purple text-white px-4 py-2 rounded-lg sample-image-button" data-src={image.src}>
-            {t('apply')}
-          </button>
+    {
+      sampleImages.map((image) => (
+        <div class="relative group">
+          <img
+            src={image.src}
+            alt={image.alt}
+            class="w-full h-64 object-cover rounded-lg transition-transform duration-300 transform group-hover:scale-105"
+          />
+          <div class="absolute inset-0 top-0 flex items-end justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+            <button
+              id="apply-button"
+              class="bg-spooky-purple text-white px-4 py-2 rounded-lg sample-image-button"
+              data-src={image.src}
+            >
+              {t("apply")}
+            </button>
+          </div>
         </div>
-      </div>
-    ))}
+      ))
+    }
   </div>
 </div>
 
 <script>
-import { getCldImageUrl } from "astro-cloudinary/helpers";
-import { halloweenPrompts } from "../utils/prompts";
+  import { getCldImageUrl } from "astro-cloudinary/helpers";
+  import { halloweenPrompts } from "../utils/prompts";
 
-  function handleSampleImageClick(event) {
-    const button = event.target.closest('.sample-image-button');
+  let backgroundImage = document.getElementById(
+    "background-image",
+  ) as HTMLImageElement;
+  let stickersPlaced: any[] = [];
+  let selectedSticker: any = null;
+  const previewImage = document.getElementById(
+    "preview-image",
+  ) as HTMLImageElement;
+  const previewContainer = document.getElementById("preview") as HTMLElement;
+  const loadingSpinner = document.getElementById("loading-spinner");
+  const finalContainer = document.getElementById("final") as HTMLElement;
+  const canvas = document.getElementById("imageCanvas") as HTMLCanvasElement;
+  const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
+  const stickersContainer = document.getElementById(
+    "stickers-container",
+  ) as HTMLElement;
+
+  let originalImageWidth = 0;
+  let originalImageHeight = 0;
+
+  function handleSampleImageClick(event: MouseEvent) {
+    const target = event.target as HTMLElement;
+    const button = target.closest<HTMLButtonElement>(".sample-image-button");
     if (button) {
-      const imageSrc = button.dataset.src;
-      const previewImage = document.getElementById('preview-image') as HTMLImageElement;
-      const previewContainer = document.getElementById('preview') as HTMLElement;
-      const loadingSpinner = document.getElementById("loading-spinner");
-      const finalContainer = document.getElementById("final") as HTMLElement;
-      const finalImage = document.getElementById("final-image") as HTMLImageElement;
-
-      
+      const imageSrc = button.dataset.src as string;
       console.log("use sample");
       loadingSpinner?.classList.remove("hidden");
       previewImage.src = imageSrc;
-      previewContainer.classList.remove('hidden');
+      previewContainer.classList.remove("hidden");
 
       const generateImage = () => {
+        finalContainer.classList.add("hidden");
         const url = getCldImageUrl({
           src: imageSrc,
           replaceBackground:
             halloweenPrompts[
               Math.floor(Math.random() * halloweenPrompts.length)
-            ]
+            ],
         });
 
-        finalImage.src = url;
+        backgroundImage.crossOrigin = "Anonymous"; // Evitar problemas de CORS
+        backgroundImage.src = url;
 
-        finalImage.onload = () => {
+        backgroundImage.onload = () => {
+          originalImageWidth = backgroundImage.width;
+          originalImageHeight = backgroundImage.height;
+
           loadingSpinner?.classList.add("hidden");
           previewContainer.classList.add("hidden");
           finalContainer.classList.remove("hidden");
+          stickersContainer.classList.remove("hidden");
+          resizeCanvas(originalImageWidth, originalImageHeight);
+          redrawCanvas();
         };
 
-        finalImage.onerror = (error) => {
-          console.log("error :", error);
-          if (error.target.status === 423) {
+        backgroundImage.onerror = (error) => {
+          console.log("ERROR :", { error });
+          if (error) {
             console.log("Error 423: Reintentando en 3 segundos...");
             setTimeout(generateImage, 3000);
           } else {
@@ -80,11 +123,74 @@ import { halloweenPrompts } from "../utils/prompts";
       };
 
       generateImage();
-      
-      
-      previewContainer.scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+      previewContainer.scrollIntoView({ behavior: "smooth", block: "start" });
+
+      function resizeCanvas(originalWidth: number, originalHeight: number) {
+        console.log("resizeCanvas samples");
+        const container = document.getElementById(
+          "canvas-container",
+        ) as HTMLElement;
+        const containerWidth = container.clientWidth;
+        // Proporciones originales
+        const aspectRatio = originalWidth / originalHeight;
+        const newWidth = containerWidth; // Ajustar el ancho al contenedor
+        const newHeight = newWidth / aspectRatio; // Mantener la proporción original
+
+        // Ajustar el tamaño del canvas
+        canvas.width = newWidth;
+        canvas.height = newHeight;
+
+        // Redibujar la imagen de fondo y los stickers
+        redrawCanvas();
+      }
+
+      // Redibujar todo el canvas
+      function redrawCanvas() {
+        console.log("redrawCanvas samples");
+
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+        ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
+
+        // Dibujar los stickers
+        stickersPlaced.forEach((sticker) => {
+          ctx.save();
+          ctx.translate(
+            sticker.x + sticker.width / 2,
+            sticker.y + sticker.height / 2,
+          );
+          ctx.rotate((sticker.rotation * Math.PI) / 180);
+          ctx.drawImage(
+            sticker.img,
+            -sticker.width / 2,
+            -sticker.height / 2,
+            sticker.width,
+            sticker.height,
+          );
+
+          // Mostrar borde para sticker seleccionado
+          if (selectedSticker === sticker) {
+            ctx.strokeStyle = "blue";
+            ctx.lineWidth = 2;
+            ctx.strokeRect(
+              -sticker.width / 2,
+              -sticker.height / 2,
+              sticker.width,
+              sticker.height,
+            );
+            ctx.fillStyle = "red";
+            ctx.fillRect(
+              sticker.width / 2 - 10,
+              sticker.height / 2 - 10,
+              10,
+              10,
+            );
+          }
+          ctx.restore();
+        });
+      }
     }
   }
 
-  document.addEventListener('click', handleSampleImageClick);
+  document.addEventListener("click", handleSampleImageClick);
 </script>

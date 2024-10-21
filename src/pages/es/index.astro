@@ -4,9 +4,9 @@ import SampleImages from "../../components/SampleImages.astro";
 import ThemeToggle from "../../components/ThemeToggle.astro";
 import { getLangFromUrl, useTranslations } from "../../i18n/utils";
 import Layout from "../../layouts/Layout.astro";
-import { CldUploadWidget, CldImage } from "astro-cloudinary";
+import { CldUploadWidget } from "astro-cloudinary";
+import Footer from "./Footer.astro";
 
-//import SampleImages from '../components/SampleImages.astro';
 const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
@@ -64,7 +64,7 @@ const t = useTranslations(lang);
     >
       <button
         id="upload-widget"
-        class="w-1/2 m-auto bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2"
+        class="m-auto bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2 text-3xl"
       >
         <svg
           class="w-6 h-6"
@@ -159,16 +159,7 @@ const t = useTranslations(lang);
       </div>
     </section>
 
-    <!-- <figure id="final" class="mt-6 hidden">
-      <h3 class="text-xl font-bold mb-2 text-spooky-green">Final:</h3>
-      <img id="final-image" src="" alt="final" class="w-full rounded-lg" />
-      <button
-        id="download-button"
-        class="bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-2 px-4 rounded-lg mt-4"
-      >
-        Download Image
-      </button>
-    </figure> -->
+    
     <section id="final" class="hidden">
       <!-- Canvas donde se mostrará la imagen transformada -->
       <div id="canvas-container" class=" flex flex-col items-center justify-center">
@@ -183,9 +174,13 @@ const t = useTranslations(lang);
       </div>
     </section>
 
-    <SampleImages />
+    <img id="background-image" src="" alt="" class="hidden" />
+
+    <SampleImages />  
     <ThemeToggle />
     <FloatingIcons />
+    <Footer />
+
   </main>
 </Layout>
 
@@ -198,10 +193,10 @@ const t = useTranslations(lang);
   const previewContainer = document.getElementById("preview") as HTMLElement;
   const previewImage = document.getElementById("preview-image") as HTMLImageElement;
   const finalContainer = document.getElementById("final") as HTMLElement;
-  //const finalImage = document.getElementById("final-image") as HTMLImageElement;
   const downloadButton = document.getElementById("download-button") as HTMLButtonElement;
   const loadingSpinner = document.getElementById("loading-spinner");
   const stickersContainer = document.getElementById("stickers-container") as HTMLElement;
+  const backgroundImage = document.getElementById("background-image") as HTMLImageElement;
 
   const canvas = document.getElementById("imageCanvas") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -211,7 +206,7 @@ const t = useTranslations(lang);
   let offsetY = 0;
   let dragging = false;
   let resizing = false;
-  let backgroundImage = new Image();
+  
   let originalImageWidth = 0;
   let originalImageHeight = 0;
 
@@ -236,7 +231,6 @@ const t = useTranslations(lang);
 
         backgroundImage.crossOrigin = "Anonymous"; // Evitar problemas de CORS
         backgroundImage.src = url;
-        //finalImage.src = url;
         
 
         backgroundImage.onload = () => {
@@ -252,11 +246,7 @@ const t = useTranslations(lang);
           resizeCanvas(originalImageWidth, originalImageHeight);
           redrawCanvas();
         };
-        // finalImage.onload = () => {
-        //   loadingSpinner?.classList.add("hidden");
-        //   previewContainer.classList.add("hidden");
-        //   finalContainer.classList.remove("hidden");
-        // };
+        
         backgroundImage.onerror = (error) => {
           console.log("ERROR :", { error });
           if (error) {
@@ -266,15 +256,6 @@ const t = useTranslations(lang);
             console.error("Error al generar la imagen:", error);
           }
         };
-        // finalImage.onerror = (error) => {
-        //   console.log("ERROR :", error);
-        //   if (error.target.status === 423) {
-        //     console.log("Error 423: Reintentando en 3 segundos...");
-        //     setTimeout(generateImage, 3000);
-        //   } else {
-        //     console.error("Error al generar la imagen:", error);
-        //   }
-        // };
       };
 
       generateImage();
@@ -284,6 +265,7 @@ const t = useTranslations(lang);
   }
 
   function resizeCanvas(originalWidth: number, originalHeight: number) {
+    console.log('resizeCanvas');
     const container = document.getElementById("canvas-container") as HTMLElement;
     const containerWidth = container.clientWidth;
     // Proporciones originales
@@ -299,18 +281,9 @@ const t = useTranslations(lang);
     redrawCanvas();
   }
 
-
-  // Obtener la posición del mouse relativa al canvas
-  function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top,
-    };
-  }
-
-  // Redibujar todo el canvas
+    // Redibujar todo el canvas
   function redrawCanvas() {
+    console.log('redrawCanvas');
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar canvas
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Ajustar la imagen al canvas
 
@@ -345,6 +318,15 @@ const t = useTranslations(lang);
       }
       ctx.restore();
     });
+  }
+
+  // Obtener la posición del mouse relativa al canvas
+  function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: evt.clientX - rect.left,
+      y: evt.clientY - rect.top,
+    };
   }
 
   /** LISTENERS */
@@ -490,7 +472,7 @@ const t = useTranslations(lang);
 <style>
   @font-face {
     font-family: 'halloween';
-    src: url('/font/halloween.woff') format('woff');
+    src: url('/font/Scary.ttf') format('truetype');
   }
 
   @font-face {
