@@ -202,7 +202,11 @@ const t = useTranslations(lang);
     widget.addEventListener("clduploadwidget:success", ((
       e: CustomEvent<{ info: { public_id: string; secure_url: string } }>,
     ) => {
-      console.log("clduploadwidget:success", e.detail);
+      //console.log("clduploadwidget:success", e.detail);
+      stickersPlaced = [];
+      selectedSticker = null;
+      offsetX = 0;
+      offsetY = 0;
       previewImage.src = e.detail.info.secure_url;
       previewContainer.classList.remove("hidden");
       loadingSpinner?.classList.remove("hidden");
@@ -212,7 +216,31 @@ const t = useTranslations(lang);
         const url = getCldImageUrl({
           src: e.detail.info.public_id,
           remove: {
-            prompt: 'human',
+            prompt: [
+            "men",
+            "women",
+            "boy",
+            "girl",
+            "kids",
+            "children",
+            "teenagers",
+            "elderly men",
+            "elderly women",
+            "infants",
+            "toddlers",
+            "babies",
+            "young adults",
+            "middle-aged men",
+            "middle-aged women",
+            "senior citizens",
+            "couples",
+            "groups of people",
+            "families",
+            "friends",
+            "athletes",
+            "workers",
+            "pedestrians"
+          ],
             multiple: true
           },
           replaceBackground:

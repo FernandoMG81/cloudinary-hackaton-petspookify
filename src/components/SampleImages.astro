@@ -77,11 +77,13 @@ const sampleImages = [
   let originalImageHeight = 0;
 
   function handleSampleImageClick(event: MouseEvent) {
+    stickersPlaced = [];
+    selectedSticker = null;
     const target = event.target as HTMLElement;
     const button = target.closest<HTMLButtonElement>(".sample-image-button");
     if (button) {
       const imageSrc = button.dataset.src as string;
-      console.log("use sample");
+     
       loadingSpinner?.classList.remove("hidden");
       previewImage.src = imageSrc;
       previewContainer.classList.remove("hidden");
@@ -91,7 +93,31 @@ const sampleImages = [
         const url = getCldImageUrl({
           src: imageSrc,
           remove: {
-            prompt: 'human',
+            prompt: [
+              "men",
+              "women",
+              "boy",
+              "girl",
+              "kids",
+              "children",
+              "teenagers",
+              "elderly men",
+              "elderly women",
+              "infants",
+              "toddlers",
+              "babies",
+              "young adults",
+              "middle-aged men",
+              "middle-aged women",
+              "senior citizens",
+              "couples",
+              "groups of people",
+              "families",
+              "friends",
+              "athletes",
+              "workers",
+              "pedestrians"
+            ],
             multiple: true
           },
           replaceBackground:
