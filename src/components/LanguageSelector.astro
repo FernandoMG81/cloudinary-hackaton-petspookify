@@ -15,14 +15,15 @@ const { currentLanguage } = Astro.props;
 <script>
   const languageSelector = document.getElementById('language-selector') as HTMLSelectElement;
 
-
-  
-  languageSelector.addEventListener('change', (event) => {
-    const selectedLanguage = event.target.value;
+  languageSelector.addEventListener('change', (event: Event) => {
+    const target = event.target as HTMLSelectElement;
+    const selectedLanguage = target.value;
     const currentPath = window.location.pathname;
+    
     const newPath = currentPath === '/' 
       ? `/${selectedLanguage}` 
       : currentPath.replace(/^\/[^/]+/, `/${selectedLanguage}`);
+    
     window.location.href = newPath;
   });
 </script>
