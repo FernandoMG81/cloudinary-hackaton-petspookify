@@ -176,7 +176,7 @@ const t = useTranslations(lang);
         />
       </div>
 
-      // Sliders de scala y rotación de stickers
+       <!-- Sliders de scala y rotación de stickers -->
       <div class="flex flex-col w-full justify-center items-center gap-4 md:flex-row">
         <div class="flex items-center">
           <label for="rotateSlider" class="text-center text-lg mb-2 mr-2"
@@ -350,7 +350,6 @@ const t = useTranslations(lang);
           originalImageWidth = backgroundImage.width;
           originalImageHeight = backgroundImage.height;
 
-          console.log(originalImageWidth, originalImageHeight);
 
           loadingSpinner?.classList.add("hidden");
           previewContainer.classList.add("hidden");
@@ -361,9 +360,8 @@ const t = useTranslations(lang);
         };
 
         backgroundImage.onerror = (error) => {
-          console.log("ERROR :", { error });
           if (error) {
-            console.log("Error 423: Reintentando en 3 segundos...");
+            console.info("Error 423: Reintentando en 3 segundos...");
             setTimeout(generateImage, 3000);
           } else {
             console.error("Error al generar la imagen:", error);
@@ -378,7 +376,6 @@ const t = useTranslations(lang);
   }
 
   function resizeCanvas(originalWidth: number, originalHeight: number) {
-    console.log("resizeCanvas");
     const container = document.getElementById(
       "canvas-container",
     ) as HTMLElement;
@@ -398,7 +395,6 @@ const t = useTranslations(lang);
 
   // Redibujar todo el canvas
   function redrawCanvas() {
-    console.log("redrawCanvas");
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar canvas
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Ajustar la imagen al canvas
 
@@ -736,28 +732,6 @@ const t = useTranslations(lang);
     };
   }
 
-  canvas.addEventListener("dblclick", (e) => {
-    console.log("double click");
-    const mousePos = getMousePos(canvas, e);
-
-    // Verificar si el doble toque/click está sobre algún sticker
-    selectedSticker = stickersPlaced.find(
-      (sticker) =>
-        mousePos.x > sticker.x &&
-        mousePos.x < sticker.x + sticker.width &&
-        mousePos.y > sticker.y &&
-        mousePos.y < sticker.y + sticker.height,
-    );
-
-    if (selectedSticker) {
-      // Eliminamos el sticker
-      stickersPlaced = stickersPlaced.filter(
-        (sticker) => sticker !== selectedSticker,
-      );
-      selectedSticker = null;
-      redrawCanvas(); // Redibujamos el canvas sin el sticker
-    }
-  });
 </script>
 
 <style>
