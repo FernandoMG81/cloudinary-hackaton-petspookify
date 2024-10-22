@@ -142,9 +142,9 @@ const sampleImages = [
         };
 
         backgroundImage.onerror = (error) => {
-          console.log("ERROR :", { error });
+          //console.log("ERROR :", { error });
           if (error) {
-            console.log("Error 423: Reintentando en 3 segundos...");
+            console.info("Error 423: Reintentando en 3 segundos...");
             setTimeout(generateImage, 3000);
           } else {
             console.error("Error al generar la imagen:", error);
@@ -157,7 +157,7 @@ const sampleImages = [
       previewContainer.scrollIntoView({ behavior: "smooth", block: "start" });
 
       function resizeCanvas(originalWidth: number, originalHeight: number) {
-        console.log("resizeCanvas samples");
+        
         const container = document.getElementById(
           "canvas-container",
         ) as HTMLElement;
@@ -177,7 +177,6 @@ const sampleImages = [
 
       // Redibujar todo el canvas
       function redrawCanvas() {
-        console.log("redrawCanvas samples");
 
         ctx.clearRect(0, 0, canvas.width, canvas.height);
         ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
