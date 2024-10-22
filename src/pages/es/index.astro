@@ -69,7 +69,7 @@ const t = useTranslations(lang);
     >
       <button
         id="upload-widget"
-        class="m-auto bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2 text-3xl"
+        class="shake m-auto bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2 text-3xl"
       >
         <svg
           class="w-6 h-6"
@@ -762,7 +762,7 @@ const t = useTranslations(lang);
   }
 
   .text-gradient {
-    background-image: var(--accent-gradient);
+    background-image: radial-gradient(circle at 43.84% -20.44%, #ff8b8f 0, #ff8f82 6.25%, #ff9375 12.5%, #ff9969 18.75%, #ff9e5d 25%, #ffa453 31.25%, #ffaa4a 37.5%, #feaf42 43.75%, #f2b53c 50%, #e6ba38 56.25%, #d8bf37 62.5%, #cbc439 68.75%, #bcc83e 75%, #adcc45 81.25%, #9ccf4e 87.5%, #8bd259 93.75%, #78d564 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 400%;
@@ -854,6 +854,7 @@ const t = useTranslations(lang);
     background-repeat: repeat-x;
     animation: l2 1.5s infinite linear;
   }
+
   @keyframes l2 {
     0%,
     15% {
@@ -891,4 +892,30 @@ const t = useTranslations(lang);
         0 100%;
     }
   }
+
+  .shake:hover{
+    animation-name: shake;
+        -webkit-animation-name: shake;
+        -moz-animation-name: shake;
+    animation-duration: 1s;
+        -webkit-animation-duration: 1s;
+        -moz-animation-duration: 1s;
+    animation-iteration-count: infinite;
+        -webkit-animation-iteration-count: infinite;
+        -moz-animation-iteration-count: infinite;
+}
+
+    @keyframes shake {
+        0%  {transform: translate(1px, 1px) rotate(0deg);}
+        10% {transform: translate(-1px, -2px) rotate(-1deg);}
+        20% {transform: translate(-3px, 0px) rotate(1deg);}
+        30% {transform: translate(3px, 2px) rotate(0deg);}
+        40% {transform: translate(1px, -1px) rotate(1deg);}
+        50% {transform: translate(-1px, 2px) rotate(-1deg);}
+        60% {transform: translate(-3px, 1px) rotate(0deg);}
+        70% {transform: translate(3px, 1px) rotate(-1deg);}
+        80% {transform: translate(-1px, -1px) rotate(1deg);}
+        90% {transform: translate(1px, 2px) rotate(0deg);}
+        100% {transform: translate(1px, -2px) rotate(-1deg);}
+    }
 </style>

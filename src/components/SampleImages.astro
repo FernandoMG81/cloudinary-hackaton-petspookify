@@ -37,7 +37,7 @@ const sampleImages = [
             alt={image.alt}
             class="w-full h-64 object-cover rounded-lg transition-transform duration-300 transform group-hover:scale-105"
           />
-          <div class="absolute inset-0 top-0 flex items-end justify-center p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+          <div class="absolute inset-0 top-0 flex items-end justify-center p-4 opacity-0 translate-y-[-20px] group-hover:translate-y-0 group-hover:opacity-100 transition-all duration-300">
             <button
               id="apply-button"
               class="bg-spooky-purple text-white px-4 py-2 rounded-lg sample-image-button"
@@ -51,6 +51,7 @@ const sampleImages = [
     }
   </div>
 </div>
+
 
 <script>
   import { getCldImageUrl } from "astro-cloudinary/helpers";
