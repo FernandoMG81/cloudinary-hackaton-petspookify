@@ -1,30 +1,49 @@
 ---
-import { ViewTransitions } from 'astro:transitions';
-import LanguageSelector from '../components/LanguageSelector.astro';
-
-
+import { ViewTransitions } from "astro:transitions";
+import LanguageSelector from "../components/LanguageSelector.astro";
 
 interface Props {
-	title: string;
+  title: string;
   lang: string;
 }
 
 const { title, lang } = Astro.props;
+
+// Definir los textos según el idioma
+const openGraphDescription = lang === 'es' 
+  ? 'PetSpookify es la herramienta perfecta para dar a tus fotos un toque espeluznante de Halloween. Personaliza imágenes subiendo las fotos de tus mascotas, añade stickers temáticos, ajusta su tamaño, gíralos y crea divertidas composiciones. ¡Descarga y comparte tu creación con amigos, o guárdala como un recuerdo encantador!'
+  : 'PetSpookify is the perfect tool to give your photos a spooky Halloween touch. Customize images by uploading your pet photos, add themed stickers, resize and rotate them, and create fun compositions. Download and share your creation with friends, or keep it as a charming keepsake!';
 ---
 
 <!doctype html>
 <html lang={lang}>
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="description" content="PETSPOOKIFY - Halloween Image Transformation App" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<meta name="generator" content={Astro.generator} />
-    <link rel="preload" href="/fonts/spooky.woff" as="font" type="font/woff" crossorigin />
-    <link rel="preload" href="/fonts/Scary.ttf" as="font" type="font/ttf" crossorigin />
-		<title>{title}</title>
-	</head>
-	<body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="description" content="PETSPOOKIFY - Halloween Image Transformation App" />
+    <meta name="viewport" content="width=device-width" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- HTML Meta Tags -->
+    <meta name="description" content={openGraphDescription} />
+
+    <!-- Open Graph Meta Tags -->
+    <meta property="og:url" content={`https://petspookify.vercel.app/${lang}/`} />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={openGraphDescription} />
+    <meta property="og:image" content="https://res.cloudinary.com/de9uossfg/image/upload/v1729560372/petspookify/open%20graph/qoufsw0vghcpyahjxqbf.png" />
+
+    <!-- Twitter Meta Tags -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta property="twitter:domain" content="petspookify.vercel.app" />
+    <meta property="twitter:url" content={`https://petspookify.vercel.app/${lang}/`} />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={openGraphDescription} />
+    <meta name="twitter:image" content="https://res.cloudinary.com/de9uossfg/image/upload/v1729560372/petspookify/open%20graph/qoufsw0vghcpyahjxqbf.png" />
+
+    <title>{title}</title>
+  </head>
+  <body class="bg-white dark:bg-gray-900 text-gray-900 dark:text-white min-h-screen transition-colors duration-300">
     <ViewTransitions />
     <LanguageSelector currentLanguage={lang} />
     <slot />
@@ -42,23 +61,41 @@ const { title, lang } = Astro.props;
       white 60%
     );
     --expo-in: linear(
-    0 0%, 0.0085 31.26%, 0.0167 40.94%,
-    0.0289 48.86%, 0.0471 55.92%,
-    0.0717 61.99%, 0.1038 67.32%,
-    0.1443 72.07%, 0.1989 76.7%,
-    0.2659 80.89%, 0.3465 84.71%,
-    0.4419 88.22%, 0.554 91.48%,
-    0.6835 94.51%, 0.8316 97.34%, 1 100%
-  );
-  --expo-out: linear(
-    0 0%, 0.1684 2.66%, 0.3165 5.49%,
-    0.446 8.52%, 0.5581 11.78%,
-    0.6535 15.29%, 0.7341 19.11%,
-    0.8011 23.3%, 0.8557 27.93%,
-    0.8962 32.68%, 0.9283 38.01%,
-    0.9529 44.08%, 0.9711 51.14%,
-    0.9833 59.06%, 0.9915 68.74%, 1 100%
-  );
+      0 0%,
+      0.0085 31.26%,
+      0.0167 40.94%,
+      0.0289 48.86%,
+      0.0471 55.92%,
+      0.0717 61.99%,
+      0.1038 67.32%,
+      0.1443 72.07%,
+      0.1989 76.7%,
+      0.2659 80.89%,
+      0.3465 84.71%,
+      0.4419 88.22%,
+      0.554 91.48%,
+      0.6835 94.51%,
+      0.8316 97.34%,
+      1 100%
+    );
+    --expo-out: linear(
+      0 0%,
+      0.1684 2.66%,
+      0.3165 5.49%,
+      0.446 8.52%,
+      0.5581 11.78%,
+      0.6535 15.29%,
+      0.7341 19.11%,
+      0.8011 23.3%,
+      0.8557 27.93%,
+      0.8962 32.68%,
+      0.9283 38.01%,
+      0.9529 44.08%,
+      0.9711 51.14%,
+      0.9833 59.06%,
+      0.9915 68.74%,
+      1 100%
+    );
   }
   html {
     font-family: system-ui, sans-serif;
@@ -78,11 +115,12 @@ const { title, lang } = Astro.props;
 
   /* View Transition Styles */
   ::view-transition-group(root) {
-    animation-timing-function: var(--expo-in)
+    animation-timing-function: var(--expo-in);
   }
 
   ::view-transition-new(root) {
-    mask: url('https://media.tenor.com/j11P8fur4msAAAAi/sappy-seals.gif') top / 0 no-repeat;
+    mask: url("https://media.tenor.com/j11P8fur4msAAAAi/sappy-seals.gif") top /
+      0 no-repeat;
     animation: scale 2s;
   }
 
