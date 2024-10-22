@@ -11,8 +11,13 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<Layout title="PetSpookify: Transform Your Pet Photos with Halloween Magic!" lang={lang}>
-  <main class="container w-fit flex flex-col items-center justify-center mx-auto px-4 py-8">
+<Layout
+  title="PetSpookify: Transform Your Pet Photos with Halloween Magic!"
+  lang={lang}
+>
+  <main
+    class="container w-fit flex flex-col items-center justify-center mx-auto px-4 py-8"
+  >
     <h1
       class="text-4xl md:text-6xl font-bold text-center mb-8 text-spooky-orange"
     >
@@ -47,7 +52,7 @@ const t = useTranslations(lang);
             textDark: "#000000",
             textLight: "#FFFFFF",
           },
-        }
+        },
       }}
     >
       <button
@@ -160,11 +165,13 @@ const t = useTranslations(lang);
       </div>
 
       <!-- Sliders de scala y rotación de stickers -->
-      <div class="flex flex-col w-full justify-center items-center gap-4 md:flex-row">
+      <div
+        class="flex flex-col w-full justify-center items-center gap-4 md:flex-row"
+      >
         <div class="flex items-center">
           <label for="rotateSlider" class="text-center text-lg mb-2 mr-2"
-            >ROTATION: </label
-          >
+            >ROTATION:
+          </label>
           <input
             type="range"
             id="rotateSlider"
@@ -176,8 +183,8 @@ const t = useTranslations(lang);
         </div>
         <div class="flex items-center">
           <label for="scaleSlider" class="text-center text-lg mb-2 mr-2"
-            >SCALE: </label
-          >
+            >SCALE:
+          </label>
           <input
             type="range"
             id="scaleSlider"
@@ -188,13 +195,24 @@ const t = useTranslations(lang);
             class="w-72 h-3 bg-gray-300 rounded-lg cursor-pointer"
           />
         </div>
+        <button
+          id="delete-button"
+          class="m-auto bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-2 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2 text-3xl"
+        >
+          🗑
+        </button>
       </div>
     </section>
 
     <section id="preview" class="mt-6 relative hidden">
       <h3 class="text-xl font-bold mb-2 text-spooky-green">Preview:</h3>
       <div class="blur">
-        <img id="preview-image" src="" alt="Preview" class="w-full rounded-lg" />
+        <img
+          id="preview-image"
+          src=""
+          alt="Preview"
+          class="w-full rounded-lg"
+        />
       </div>
       <div
         id="loading-spinner"
@@ -205,28 +223,29 @@ const t = useTranslations(lang);
       </div>
     </section>
 
-    
     <section id="final" class="hidden">
       <!-- Canvas donde se mostrará la imagen transformada -->
-      <div id="canvas-container" class=" flex flex-col items-center justify-center">
+      <div
+        id="canvas-container"
+        class="flex flex-col items-center justify-center"
+      >
         <canvas id="imageCanvas" width="1080" height="1350"></canvas>
         <!-- Botón para descargar la imagen personalizada -->
         <button
           id="download-button"
           class="m-auto mt-10 bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2 text-3xl"
         >
-          {t('download')}
+          {t("download")}
         </button>
       </div>
     </section>
 
     <img id="background-image" src="" alt="" class="hidden" />
 
-    <SampleImages />  
+    <SampleImages />
     <ThemeToggle />
     <FloatingIcons />
     <Footer />
-
   </main>
 </Layout>
 
@@ -255,6 +274,9 @@ const t = useTranslations(lang);
   const scaleSlider = document.getElementById(
     "scaleSlider",
   ) as HTMLInputElement;
+  const deleteButton = document.getElementById(
+    "delete-button",
+  ) as HTMLButtonElement;
 
   const canvas = document.getElementById("imageCanvas") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -325,7 +347,6 @@ const t = useTranslations(lang);
         backgroundImage.onload = () => {
           originalImageWidth = backgroundImage.width;
           originalImageHeight = backgroundImage.height;
-
 
           loadingSpinner?.classList.add("hidden");
           previewContainer.classList.add("hidden");
@@ -631,12 +652,16 @@ const t = useTranslations(lang);
 
   //Eventos de sliders
 
-  // Asigna las propiedades iniciales de escala y rotación al sticker seleccionado
-  function selectSticker(sticker: any) {
-    selectedSticker = sticker;
-    rotateSlider.value = sticker.rotation || 0;
-    scaleSlider.value = sticker.scaleX || 1;
-  }
+  // Delete button
+  deleteButton.addEventListener("click", () => {
+    if (selectedSticker) {
+      stickersPlaced = stickersPlaced.filter(
+        (sticker) => sticker !== selectedSticker,
+      );
+    }
+    selectedSticker = null;
+    redrawCanvas();
+  });
 
   // Actualiza la rotación cuando se mueve el slider de rotación
   rotateSlider.addEventListener("input", (e: Event) => {
@@ -670,6 +695,12 @@ const t = useTranslations(lang);
     });
     img.addEventListener("touchend", handleStickerTouchEnd);
   });
+
+  function selectSticker(sticker: any) {
+    selectedSticker = sticker;
+    rotateSlider.value = sticker.rotation || 0;
+    scaleSlider.value = sticker.scaleX || 1;
+  }
 
   function handleStickerTouchStart(e: TouchEvent) {
     e.preventDefault();
@@ -707,38 +738,93 @@ const t = useTranslations(lang);
       redrawCanvas();
     };
   }
-
 </script>
 
 <style>
   @font-face {
-    font-family: 'halloween';
-    src: url('/font/Scary.ttf') format('truetype');
+    font-family: "halloween";
+    src: url("/font/Scary.ttf") format("truetype");
   }
 
   @font-face {
-    font-family: 'spooky';
-    src: url('/font/spooky.woff') format('woff');
+    font-family: "spooky";
+    src: url("/font/spooky.woff") format("woff");
   }
 
   #preview p {
-    font-family: 'spooky', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  } 
+    font-family:
+      "spooky",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
+  }
 
   .text-gradient {
-    background-image: radial-gradient(circle at 43.84% -20.44%, #ff8b8f 0, #ff8f82 6.25%, #ff9375 12.5%, #ff9969 18.75%, #ff9e5d 25%, #ffa453 31.25%, #ffaa4a 37.5%, #feaf42 43.75%, #f2b53c 50%, #e6ba38 56.25%, #d8bf37 62.5%, #cbc439 68.75%, #bcc83e 75%, #adcc45 81.25%, #9ccf4e 87.5%, #8bd259 93.75%, #78d564 100%);
+    background-image: radial-gradient(
+      circle at 43.84% -20.44%,
+      #ff8b8f 0,
+      #ff8f82 6.25%,
+      #ff9375 12.5%,
+      #ff9969 18.75%,
+      #ff9e5d 25%,
+      #ffa453 31.25%,
+      #ffaa4a 37.5%,
+      #feaf42 43.75%,
+      #f2b53c 50%,
+      #e6ba38 56.25%,
+      #d8bf37 62.5%,
+      #cbc439 68.75%,
+      #bcc83e 75%,
+      #adcc45 81.25%,
+      #9ccf4e 87.5%,
+      #8bd259 93.75%,
+      #78d564 100%
+    );
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-size: 400%;
     background-position: 0%;
   }
 
-  #title{
-    font-family: 'spooky', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  #title {
+    font-family:
+      "spooky",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
   }
 
-  #upload-button, #download-button{
-    font-family: 'halloween', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  #upload-button,
+  #download-button {
+    font-family:
+      "halloween",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
   }
 
   canvas {
@@ -829,5 +915,52 @@ const t = useTranslations(lang);
         0 100%;
     }
   }
-  
+
+  .shake:hover {
+    animation-name: shake;
+    -webkit-animation-name: shake;
+    -moz-animation-name: shake;
+    animation-duration: 1s;
+    -webkit-animation-duration: 1s;
+    -moz-animation-duration: 1s;
+    animation-iteration-count: infinite;
+    -webkit-animation-iteration-count: infinite;
+    -moz-animation-iteration-count: infinite;
+  }
+
+  @keyframes shake {
+    0% {
+      transform: translate(1px, 1px) rotate(0deg);
+    }
+    10% {
+      transform: translate(-1px, -2px) rotate(-1deg);
+    }
+    20% {
+      transform: translate(-3px, 0px) rotate(1deg);
+    }
+    30% {
+      transform: translate(3px, 2px) rotate(0deg);
+    }
+    40% {
+      transform: translate(1px, -1px) rotate(1deg);
+    }
+    50% {
+      transform: translate(-1px, 2px) rotate(-1deg);
+    }
+    60% {
+      transform: translate(-3px, 1px) rotate(0deg);
+    }
+    70% {
+      transform: translate(3px, 1px) rotate(-1deg);
+    }
+    80% {
+      transform: translate(-1px, -1px) rotate(1deg);
+    }
+    90% {
+      transform: translate(1px, 2px) rotate(0deg);
+    }
+    100% {
+      transform: translate(1px, -2px) rotate(-1deg);
+    }
+  }
 </style>
