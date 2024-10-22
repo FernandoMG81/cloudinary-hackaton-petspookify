@@ -75,7 +75,7 @@ const t = useTranslations(lang);
     <!-- Contenedor de stickers -->
     <section
       id="stickers-container"
-      class="mt-10 mb-14 gap-4 bg-slate-600 p-4 rounded-lg border-2 border-slate-800 overflow-hidden"
+      class="mt-10 mb-14 gap-4 bg-slate-600 p-4 rounded-lg border-2 border-slate-800 overflow-hidden hidden"
     >
     <div class="bg-gradient-to-r from-spooky-orange to-orange-700 p-4 rounded-lg shadow-md mt-4 mb-4">
       <h4 class="text-2xl text-center font-extrabold text-white mb-2">{t('instructions_1')}</h4>
@@ -145,12 +145,14 @@ const t = useTranslations(lang);
       
     </section>
 
-    <section id="preview" class="mt-6 hidden relative">
+    <section id="preview" class="mt-6 relative hidden">
       <h3 class="text-xl font-bold mb-2 text-spooky-green">Preview:</h3>
-      <img id="preview-image" src="" alt="Preview" class="w-full rounded-lg" />
+      <div class="blur">
+        <img id="preview-image" src="" alt="Preview" class="w-full rounded-lg blur-md" />
+      </div>
       <div
         id="loading-spinner"
-        class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50"
+        class="fixed inset-0 flex flex-col items-center justify-center bg-black bg-opacity-50"
       >
         <div class="loader"></div>
         <p class="text-spooky-orange text-3xl ml-4">{t("generatingdImage")}</p>
@@ -512,6 +514,9 @@ const t = useTranslations(lang);
     src: url('/font/spooky.woff') format('woff');
   }
 
+  #preview p {
+    font-family: 'spooky', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  } 
 
   .text-gradient {
     background-image: var(--accent-gradient);
