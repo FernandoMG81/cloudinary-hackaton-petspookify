@@ -11,8 +11,13 @@ const lang = getLangFromUrl(Astro.url);
 const t = useTranslations(lang);
 ---
 
-<Layout title="¡Transforma tus fotos de mascotas con magia de Halloween!" lang={lang}>
-  <main class="container flex flex-col items-center justify-center mx-auto px-4 py-8">
+<Layout
+  title="PetSpookify - ¡Transforma tus fotos de mascotas con magia de Halloween!"
+  lang={lang}
+>
+  <main
+    class="container flex flex-col items-center justify-center w-fit mx-auto px-4 py-8"
+  >
     <h1
       class="text-4xl md:text-6xl font-bold text-center mb-8 text-spooky-orange"
     >
@@ -89,78 +94,129 @@ const t = useTranslations(lang);
       id="stickers-container"
       class="mt-10 mb-14 gap-4 bg-slate-600 p-4 rounded-lg border-2 border-slate-800 overflow-hidden hidden"
     >
-    <div class="bg-gradient-to-r from-spooky-orange to-orange-700 p-4 rounded-lg shadow-md mt-4 mb-4">
-      <h4 class="text-2xl text-center font-extrabold text-white mb-2">{t('instructions_1')}</h4>
-      <p class="text-lg text-white text-center">
-        <span class="font-bold">{t('instructions_2')}</span>{t('instructions_3')} 
-        <br/>
-        <span class="font-bold">{t('instructions_4')}</span>{t('instructions_5')}<span class="font-extrabold">"Q"</span> y <span class="font-extrabold">"E"</span>, 
-        {t('instructions_6')}<span class="font-extrabold">"Delete"</span>{t('instructions_7')}
-        <br/>
-        {t('instructions_8')}<span class="font-bold">{t('instructions_9')}</span>{t('instructions_10')}
-      </p>
-    </div>
-      
+      <div
+        class="bg-gradient-to-r from-spooky-orange to-orange-700 p-4 rounded-lg shadow-md mt-4 mb-4"
+      >
+        <h4 class="text-2xl text-center font-extrabold text-white mb-2">
+          {t("instructions_1")}
+        </h4>
+        <p class="text-lg text-white text-center">
+          <span class="font-bold">{t("instructions_2")}</span>{
+            t("instructions_3")
+          }
+          <br />
+          <span class="font-bold">{t("instructions_4")}</span>{
+            t("instructions_5")
+          }<span class="font-extrabold">Sliders</span>
+          {t("instructions_5_1")}
+          <span class="font-extrabold">"Q"</span> y <span class="font-extrabold"
+            >"E"</span
+          >,
+          {t("instructions_6")}<span class="font-extrabold">"Delete"</span>{
+            t("instructions_7")
+          }
+          <br />
+          {t("instructions_8")}<span class="font-bold"
+            >{t("instructions_9")}</span
+          >{t("instructions_10")}
+        </p>
+      </div>
+
       <div
         class="flex flex-wrap justify-center items-center gap-4 overflow-x-auto"
       >
         <img
-          class="hover:cursor-grab"
+          class="hover:cursor-grab sticker"
           src="https://res.cloudinary.com/de9uossfg/image/upload/v1729083604/petspookify/stickers/pptalh8i0w1yrihl0omu.webp"
           alt="Sticker 1"
           width="100"
           draggable="true"
         />
         <img
-          class="hover:cursor-grab"
+          class="hover:cursor-grab sticker"
           src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/zbyv73u544vbhgy8sbsh.webp"
           alt="Sticker 2"
           width="100"
           draggable="true"
         />
         <img
-          class="hover:cursor-grab"
+          class="hover:cursor-grab sticker"
           src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/zv35s8vhanouhndppdns.webp"
           alt="Sticker 3"
           width="100"
           draggable="true"
         />
         <img
-          class="hover:cursor-grab"
+          class="hover:cursor-grab sticker"
           src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/l26i1bcvlslg9gzgcjfe.webp"
           alt="Sticker 4"
           width="100"
           draggable="true"
         />
         <img
-          class="hover:cursor-grab"
+          class="hover:cursor-grab sticker"
           src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/h9ew3pxvcpgevwdmthlm.webp"
           alt="Sticker 5"
           width="100"
           draggable="true"
         />
         <img
-          class="hover:cursor-grab"
+          class="hover:cursor-grab sticker"
           src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/qcajix8hesatbl1ot70v.webp"
           alt="Sticker 6"
           width="100"
           draggable="true"
         />
         <img
-          class="hover:cursor-grab"
+          class="hover:cursor-grab sticker"
           src="https://res.cloudinary.com/de9uossfg/image/upload/v1729084006/petspookify/stickers/p7ar2bis4me0wesvxo8l.webp"
           alt="Sticker 7"
           width="100"
           draggable="true"
         />
       </div>
-      
+
+      // Sliders de scala y rotación de stickers
+      <div class="flex flex-col w-full justify-center items-center gap-4 md:flex-row">
+        <div class="flex items-center">
+          <label for="rotateSlider" class="text-center text-lg mb-2 mr-2"
+            >ROTACION: </label
+          >
+          <input
+            type="range"
+            id="rotateSlider"
+            min="0"
+            max="360"
+            value="0"
+            class="w-72 h-3 bg-gray-300 rounded-lg cursor-pointer"
+          />
+        </div>
+        <div class="flex items-center">
+          <label for="scaleSlider" class="text-center text-lg mb-2 mr-2"
+            >TAMAÑO: </label
+          >
+          <input
+            type="range"
+            id="scaleSlider"
+            min="100"
+            max="500"
+            step="1"
+            value="100"
+            class="w-72 h-3 bg-gray-300 rounded-lg cursor-pointer"
+          />
+        </div>
+      </div>
     </section>
 
     <section id="preview" class="mt-6 relative hidden">
       <h3 class="text-xl font-bold mb-2 text-spooky-green">Preview:</h3>
       <div class="blur">
-        <img id="preview-image" src="" alt="Preview" class="w-full rounded-lg" />
+        <img
+          id="preview-image"
+          src=""
+          alt="Preview"
+          class="w-full rounded-lg"
+        />
       </div>
       <div
         id="loading-spinner"
@@ -171,28 +227,29 @@ const t = useTranslations(lang);
       </div>
     </section>
 
-    
     <section id="final" class="hidden">
       <!-- Canvas donde se mostrará la imagen transformada -->
-      <div id="canvas-container" class=" flex flex-col items-center justify-center">
+      <div
+        id="canvas-container"
+        class="flex flex-col items-center justify-center"
+      >
         <canvas id="imageCanvas" width="1080" height="1350"></canvas>
         <!-- Botón para descargar la imagen personalizada -->
         <button
           id="download-button"
           class="m-auto mt-10 bg-spooky-orange hover:bg-spooky-purple text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center space-x-2 text-3xl"
         >
-          {t('download')}
+          {t("download")}
         </button>
       </div>
     </section>
 
     <img id="background-image" src="" alt="" class="hidden" />
 
-    <SampleImages />  
+    <SampleImages />
     <ThemeToggle />
     <FloatingIcons />
     <Footer />
-
   </main>
 </Layout>
 
@@ -203,11 +260,24 @@ const t = useTranslations(lang);
 
   const widget = document.getElementById("upload-widget");
   const previewContainer = document.getElementById("preview") as HTMLElement;
-  const previewImage = document.getElementById("preview-image") as HTMLImageElement;
+  const previewImage = document.getElementById(
+    "preview-image",
+  ) as HTMLImageElement;
   const finalContainer = document.getElementById("final") as HTMLElement;
   const loadingSpinner = document.getElementById("loading-spinner");
-  const stickersContainer = document.getElementById("stickers-container") as HTMLElement;
-  const backgroundImage = document.getElementById("background-image") as HTMLImageElement;
+  const stickersContainer = document.getElementById(
+    "stickers-container",
+  ) as HTMLElement;
+  const backgroundImage = document.getElementById(
+    "background-image",
+  ) as HTMLImageElement;
+  // Elementos DOM
+  const rotateSlider = document.getElementById(
+    "rotateSlider",
+  ) as HTMLInputElement;
+  const scaleSlider = document.getElementById(
+    "scaleSlider",
+  ) as HTMLInputElement;
 
   const canvas = document.getElementById("imageCanvas") as HTMLCanvasElement;
   const ctx = canvas.getContext("2d") as CanvasRenderingContext2D;
@@ -217,7 +287,8 @@ const t = useTranslations(lang);
   let offsetY = 0;
   let dragging = false;
   let resizing = false;
-  
+  let rotation = 0;
+
   let originalImageWidth = 0;
   let originalImageHeight = 0;
 
@@ -262,9 +333,9 @@ const t = useTranslations(lang);
               "friends",
               "athletes",
               "workers",
-              "pedestrians"
+              "pedestrians",
             ],
-            multiple: true
+            multiple: true,
           },
           replaceBackground:
             halloweenPrompts[
@@ -274,7 +345,6 @@ const t = useTranslations(lang);
 
         backgroundImage.crossOrigin = "Anonymous"; // Evitar problemas de CORS
         backgroundImage.src = url;
-        
 
         backgroundImage.onload = () => {
           originalImageWidth = backgroundImage.width;
@@ -285,11 +355,11 @@ const t = useTranslations(lang);
           loadingSpinner?.classList.add("hidden");
           previewContainer.classList.add("hidden");
           finalContainer.classList.remove("hidden");
-          stickersContainer.classList.remove("hidden")
+          stickersContainer.classList.remove("hidden");
           resizeCanvas(originalImageWidth, originalImageHeight);
           redrawCanvas();
         };
-        
+
         backgroundImage.onerror = (error) => {
           console.log("ERROR :", { error });
           if (error) {
@@ -304,15 +374,14 @@ const t = useTranslations(lang);
       generateImage();
 
       previewContainer.scrollIntoView({ behavior: "smooth", block: "start" });
-
     }) as EventListener);
-
-    
   }
 
   function resizeCanvas(originalWidth: number, originalHeight: number) {
-    console.log('resizeCanvas');
-    const container = document.getElementById("canvas-container") as HTMLElement;
+    console.log("resizeCanvas");
+    const container = document.getElementById(
+      "canvas-container",
+    ) as HTMLElement;
     const containerWidth = container.clientWidth;
     // Proporciones originales
     const aspectRatio = originalWidth / originalHeight;
@@ -327,9 +396,9 @@ const t = useTranslations(lang);
     redrawCanvas();
   }
 
-    // Redibujar todo el canvas
+  // Redibujar todo el canvas
   function redrawCanvas() {
-    console.log('redrawCanvas');
+    console.log("redrawCanvas");
     ctx.clearRect(0, 0, canvas.width, canvas.height); // Limpiar canvas
     ctx.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height); // Ajustar la imagen al canvas
 
@@ -341,6 +410,7 @@ const t = useTranslations(lang);
         sticker.y + sticker.height / 2,
       );
       ctx.rotate((sticker.rotation * Math.PI) / 180);
+      ctx.scale(sticker.scaleX, sticker.scaleY); // Aplica la escala
       ctx.drawImage(
         sticker.img,
         -sticker.width / 2,
@@ -367,13 +437,13 @@ const t = useTranslations(lang);
   }
 
   // Obtener la posición del mouse relativa al canvas
-  function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
-    const rect = canvas.getBoundingClientRect();
-    return {
-      x: evt.clientX - rect.left,
-      y: evt.clientY - rect.top,
-    };
-  }
+  // function getMousePos(canvas: HTMLCanvasElement, evt: MouseEvent) {
+  //   const rect = canvas.getBoundingClientRect();
+  //   return {
+  //     x: evt.clientX - rect.left,
+  //     y: evt.clientY - rect.top,
+  //   };
+  // }
 
   /** LISTENERS */
 
@@ -514,22 +584,208 @@ const t = useTranslations(lang);
       redrawCanvas();
     }
   });
+
+  // Eventos táctiles para el canvas
+  canvas.addEventListener("touchstart", handleTouchStart, { passive: false });
+  canvas.addEventListener("touchmove", handleTouchMove, { passive: false });
+  canvas.addEventListener("touchend", handleTouchEnd);
+
+  function handleTouchStart(e: TouchEvent) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const mousePos = getMousePos(canvas, touch);
+
+    selectedSticker = stickersPlaced.find(
+      (sticker) =>
+        mousePos.x > sticker.x &&
+        mousePos.x < sticker.x + sticker.width &&
+        mousePos.y > sticker.y &&
+        mousePos.y < sticker.y + sticker.height,
+    );
+
+    if (selectedSticker) {
+      offsetX = mousePos.x - selectedSticker.x;
+      offsetY = mousePos.y - selectedSticker.y;
+      if (
+        mousePos.x > selectedSticker.x + selectedSticker.width - 20 &&
+        mousePos.y > selectedSticker.y + selectedSticker.height - 20
+      ) {
+        resizing = true;
+      } else {
+        dragging = true;
+      }
+    } else {
+      selectedSticker = null;
+      redrawCanvas();
+    }
+  }
+
+  function handleTouchMove(e: TouchEvent) {
+    e.preventDefault();
+    if (!selectedSticker) return;
+
+    const touch = e.touches[0];
+    const mousePos = getMousePos(canvas, touch);
+
+    if (dragging) {
+      selectedSticker.x = mousePos.x - offsetX;
+      selectedSticker.y = mousePos.y - offsetY;
+    }
+
+    if (resizing) {
+      selectedSticker.width = mousePos.x - selectedSticker.x;
+      selectedSticker.height = mousePos.y - selectedSticker.y;
+    }
+
+    redrawCanvas();
+  }
+
+  function handleTouchEnd() {
+    dragging = false;
+    resizing = false;
+  }
+
+  // Función auxiliar para obtener la posición del toque
+  function getMousePos(
+    canvas: HTMLCanvasElement,
+    touchOrMouseEvent: Touch | MouseEvent,
+  ) {
+    const rect = canvas.getBoundingClientRect();
+    return {
+      x: touchOrMouseEvent.clientX - rect.left,
+      y: touchOrMouseEvent.clientY - rect.top,
+    };
+  }
+
+  //Eventos de sliders
+
+  // Asigna las propiedades iniciales de escala y rotación al sticker seleccionado
+  function selectSticker(sticker: any) {
+    selectedSticker = sticker;
+    rotateSlider.value = sticker.rotation || 0;
+    scaleSlider.value = sticker.scaleX || 1;
+  }
+
+  // Actualiza la rotación cuando se mueve el slider de rotación
+  rotateSlider.addEventListener("input", (e: Event) => {
+    if (selectedSticker) {
+      rotation = parseFloat((e.target as HTMLInputElement).value);
+      selectedSticker.rotation = rotation;
+      redrawCanvas();
+    }
+  });
+
+  // Actualiza el tamaño cuando se mueve el slider de escala
+  scaleSlider.addEventListener("input", (e: Event) => {
+    if (selectedSticker) {
+      const scaleValue = parseFloat((e.target as HTMLInputElement).value);
+      selectedSticker.width = scaleValue;
+      selectedSticker.height = scaleValue;
+      redrawCanvas();
+    }
+  });
+
+  // Eventos de arrastrar y soltar para dispositivos móviles
+  const stickerImages = document.querySelectorAll(
+    ".sticker",
+  ) as NodeListOf<HTMLImageElement>;
+  stickerImages.forEach((img) => {
+    img.addEventListener("touchstart", handleStickerTouchStart, {
+      passive: false,
+    });
+    img.addEventListener("touchmove", handleStickerTouchMove, {
+      passive: false,
+    });
+    img.addEventListener("touchend", handleStickerTouchEnd);
+  });
+
+  function handleStickerTouchStart(e: TouchEvent) {
+    e.preventDefault();
+    const touch = e.touches[0];
+    const img = e.target as HTMLImageElement;
+    img.style.opacity = "0.5";
+    // Asigna las propiedades actuales del sticker seleccionado a los sliders
+    selectSticker(selectedSticker);
+  }
+
+  function handleStickerTouchMove(e: TouchEvent) {
+    e.preventDefault();
+  }
+
+  function handleStickerTouchEnd(e: TouchEvent) {
+    const img = e.target as HTMLImageElement;
+    img.style.opacity = "1";
+    const touch = e.changedTouches[0];
+    const mousePos = getMousePos(canvas, touch);
+
+    const stickerImage = new Image();
+    stickerImage.src = img.src;
+    stickerImage.crossOrigin = "Anonymous";
+
+    stickerImage.onload = () => {
+      stickersPlaced.push({
+        img: stickerImage,
+        x: mousePos.x - 50,
+        y: mousePos.y - 50,
+        width: 100,
+        height: 100,
+        rotation: 0,
+      });
+      selectedSticker = stickersPlaced[stickersPlaced.length - 1];
+      redrawCanvas();
+    };
+  }
+
+  canvas.addEventListener("dblclick", (e) => {
+    console.log("double click");
+    const mousePos = getMousePos(canvas, e);
+
+    // Verificar si el doble toque/click está sobre algún sticker
+    selectedSticker = stickersPlaced.find(
+      (sticker) =>
+        mousePos.x > sticker.x &&
+        mousePos.x < sticker.x + sticker.width &&
+        mousePos.y > sticker.y &&
+        mousePos.y < sticker.y + sticker.height,
+    );
+
+    if (selectedSticker) {
+      // Eliminamos el sticker
+      stickersPlaced = stickersPlaced.filter(
+        (sticker) => sticker !== selectedSticker,
+      );
+      selectedSticker = null;
+      redrawCanvas(); // Redibujamos el canvas sin el sticker
+    }
+  });
 </script>
 
 <style>
   @font-face {
-    font-family: 'halloween';
-    src: url('/font/Scary.ttf') format('truetype');
+    font-family: "halloween";
+    src: url("/font/Scary.ttf") format("truetype");
   }
 
   @font-face {
-    font-family: 'spooky';
-    src: url('/font/spooky.woff') format('woff');
+    font-family: "spooky";
+    src: url("/font/spooky.woff") format("woff");
   }
 
   #preview p {
-    font-family: 'spooky', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
-  } 
+    font-family:
+      "spooky",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
+  }
 
   .text-gradient {
     background-image: var(--accent-gradient);
@@ -539,22 +795,39 @@ const t = useTranslations(lang);
     background-position: 0%;
   }
 
-  #title{
-    font-family: 'spooky', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  #title {
+    font-family:
+      "spooky",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
   }
 
-  #upload-button, #download-button{
-    font-family: 'halloween', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  #upload-button,
+  #download-button {
+    font-family:
+      "halloween",
+      system-ui,
+      -apple-system,
+      BlinkMacSystemFont,
+      "Segoe UI",
+      Roboto,
+      Oxygen,
+      Ubuntu,
+      Cantarell,
+      "Open Sans",
+      "Helvetica Neue",
+      sans-serif;
   }
 
-  /* .loader {
-    border: 4px solid #f3f3f3;
-    border-radius: 50%;
-    border-top: 4px solid #8f5da5;
-    width: 24px;
-    height: 24px;
-    animation: spin 2s linear infinite;
-  } */
 
   canvas {
     background-color: #f5f5f5;
@@ -596,29 +869,52 @@ const t = useTranslations(lang);
     }
   }
 
-  
   .loader {
     height: 50px;
     aspect-ratio: 2;
     display: grid;
     background:
-      radial-gradient(farthest-side,#000 15%,#0000 18%)0 0/50% 100%,
-      radial-gradient(50% 100% at 50% 160%,#fff 95%,#0000) 0 0   /50% 50%,
-      radial-gradient(50% 100% at 50% -60%,#fff 95%,#0000) 0 100%/50% 50%;
+      radial-gradient(farthest-side, #000 15%, #0000 18%) 0 0/50% 100%,
+      radial-gradient(50% 100% at 50% 160%, #fff 95%, #0000) 0 0 /50% 50%,
+      radial-gradient(50% 100% at 50% -60%, #fff 95%, #0000) 0 100%/50% 50%;
     background-repeat: repeat-x;
     animation: l2 1.5s infinite linear;
   }
   @keyframes l2 {
     0%,
-    15% {background-position:0   0,0 0,0 100%}
+    15% {
+      background-position:
+        0 0,
+        0 0,
+        0 100%;
+    }
     20%,
-    40% {background-position:5px 0,0 0,0 100%}
+    40% {
+      background-position:
+        5px 0,
+        0 0,
+        0 100%;
+    }
     45%,
-    55% {background-position:0   0,0 0,0 100%}
+    55% {
+      background-position:
+        0 0,
+        0 0,
+        0 100%;
+    }
     60%,
-    80%{background-position:-5px 0,0 0,0 100%}
+    80% {
+      background-position:
+        -5px 0,
+        0 0,
+        0 100%;
+    }
     85%,
-    100% {background-position:0   0,0 0,0 100%}
+    100% {
+      background-position:
+        0 0,
+        0 0,
+        0 100%;
+    }
   }
-    
 </style>
